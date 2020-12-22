@@ -4,6 +4,7 @@ import React from 'react';
  * Todos:
  * - Start/Reset Button
  * - Start Button decides if x or o starts
+ * - Hover over Field should show current player
  */
 
 const generateFields = Array.from({ length: 9 }, (_, i) => {
@@ -64,9 +65,13 @@ class App extends React.Component {
   };
 
   render() {
-    const { fields } = this.state;
+    const { fields, player } = this.state;
     return (
-      <div>
+      <div className="container">
+        <p>
+          Player <span className={`player ${player}`}>{player}</span> starts the
+          game.
+        </p>
         <div className="board">
           {fields.map((field) => {
             return (
