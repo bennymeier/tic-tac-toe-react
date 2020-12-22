@@ -7,6 +7,8 @@
 - Add player name fields
 - Shuffle player start (currently 'x' starts always)
 - Add hover which shows current player name
+- If game is finished and user clicks outside of game it starts from beginning
+- Create components folder and outsource components to keep App.tsx clean
 
 ## Screenshots
 
