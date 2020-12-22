@@ -1,4 +1,7 @@
 # Tic Tac Toe written in React, TypeScript, & Sass.
+![Game at start](https://raw.githubusercontent.com/bennymeier/tic-tac-toe-react/main/screenshot_1.png)
+![Game while playing](https://raw.githubusercontent.com/bennymeier/tic-tac-toe-react/main/screenshot_2.png)
+
 ---
 ### Getting Started with Create React App
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
