@@ -20,15 +20,12 @@ body {
   }
 
   .board {
-    width: 60vmin;
-    height: 60vmin;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 0;
 
     .field {
-      height: 75px;
-      width: 75px;
+      height: 50px;
+      width: 50px;
       user-select: none;
       cursor: pointer;
       border: 1px solid black;
@@ -53,6 +50,49 @@ body {
 
       &[data-value='o'] {
         color: cornflowerblue;
+      }
+    }
+  }
+}
+
+.logs-container {
+  min-height: 250px;
+  max-height: 250px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .logs {
+    list-style: none;
+    flex: 1 1 auto;
+    overflow-y: scroll;
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    flex-direction: column;
+
+    .log {
+      margin: 0.2em;
+
+      &.player-x {
+        color: tomato;
+      }
+
+      &.player-o {
+        color: cornflowerblue;
+      }
+
+      .datetime {
+        font-weight: bold;
+        color: gray;
+        margin-right: 1em;
+      }
+
+      .text {
+        margin: 0;
+        display: inline-block;
       }
     }
   }

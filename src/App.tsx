@@ -5,6 +5,7 @@ import React from 'react';
  * - Start/Reset Button
  * - Start Button decides if x or o starts
  * - Hover over Field should show current player
+ * - Add log just for fun
  */
 
 const generateFields = Array.from({ length: 9 }, (_, i) => {
@@ -22,15 +23,21 @@ interface Field {
   selected: string;
   value: string;
 }
-
+interface Log {
+  datetime: string;
+  text: string;
+  player: Player;
+}
 interface State {
   player: Player;
   fields: Field[];
+  logs: Log[];
 }
 class App extends React.Component {
   state: State = {
     player: 'x',
     fields: generateFields,
+    logs: [],
   };
 
   changePlayer = (): Promise<Player> => {
@@ -43,9 +50,23 @@ class App extends React.Component {
     });
   };
 
+  setLogEntry = (text: string) => {
+    const { logs, player } = this.state;
+    const newLog: Log = {
+      text,
+      player,
+      datetime: new Date().toLocaleTimeString(),
+    };
+    this.setState({ logs: [newLog, ...logs] });
+  };
+
   fillField = (currentField: Field) => {
+    const { player } = this.state;
     if (currentField.selected === 'true') {
       console.warn(`Field Nr. ${currentField.id} already selected!`);
+      this.setLogEntry(
+        `Player ${player} the field ${currentField.id} is already selected.`
+      );
       return;
     }
     const fields = this.state.fields.map((field) => {
@@ -55,17 +76,16 @@ class App extends React.Component {
       return field;
     });
     this.setState({ fields }, async () => {
-      console.log(
-        `Player ${this.state.player} has selected field nr. ${currentField.id}`
+      this.setLogEntry(
+        `Player ${player} you have selected field nr. ${currentField.id}.`
       );
-      console.log('Change player!');
-      await this.changePlayer();
-      console.log(`Player ${this.state.player} is the next!`);
+      const newPlayer = await this.changePlayer();
+      this.setLogEntry(`Player ${newPlayer} it's your turn.`);
     });
   };
 
   render() {
-    const { fields, player } = this.state;
+    const { fields, player, logs } = this.state;
     return (
       <div className="container">
         <p>
@@ -87,6 +107,18 @@ class App extends React.Component {
               </div>
             );
           })}
+        </div>
+        <div className="logs-container">
+          <ul className="logs">
+            {logs.map((log) => {
+              return (
+                <li className={`log player-${log.player}`}>
+                  <span className="datetime">{log.datetime}</span>
+                  <p className="text">{log.text}</p>
+                </li>
+              );
+            })}
+          </ul>
         </div>
       </div>
     );
