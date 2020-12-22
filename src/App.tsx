@@ -32,12 +32,14 @@ interface State {
   player: Player;
   fields: Field[];
   logs: Log[];
+  gameBegan: boolean;
 }
 class App extends React.Component {
   state: State = {
     player: 'x',
     fields: generateFields,
     logs: [],
+    gameBegan: false,
   };
 
   changePlayer = (): Promise<Player> => {
@@ -75,7 +77,7 @@ class App extends React.Component {
       }
       return field;
     });
-    this.setState({ fields }, async () => {
+    this.setState({ fields, gameBegan: true }, async () => {
       this.setLogEntry(
         `Player ${player} you have selected field nr. ${currentField.id}.`
       );
@@ -85,13 +87,17 @@ class App extends React.Component {
   };
 
   render() {
-    const { fields, player, logs } = this.state;
+    const { fields, player, logs, gameBegan } = this.state;
     return (
       <div className="container">
-        <p>
-          Player <span className={`player ${player}`}>{player}</span> starts the
-          game.
-        </p>
+        <div className="game-started">
+          {!gameBegan && (
+            <p>
+              Player <span className={`player ${player}`}>{player}</span> starts
+              the game.
+            </p>
+          )}
+        </div>
         <div className="board">
           {fields.map((field) => {
             return (

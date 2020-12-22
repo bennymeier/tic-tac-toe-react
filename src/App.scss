@@ -19,6 +19,14 @@ body {
     }
   }
 
+  .game-started {
+    min-height: 50px;
+
+    p {
+      margin-top: 0;
+    }
+  }
+
   .board {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
