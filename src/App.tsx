@@ -115,16 +115,18 @@ class App extends React.Component {
           })}
         </div>
         <div className="logs-container">
-          <ul className="logs">
-            {logs.map((log) => {
-              return (
-                <li className={`log player-${log.player}`}>
-                  <span className="datetime">{log.datetime}</span>
-                  <p className="text">{log.text}</p>
-                </li>
-              );
-            })}
-          </ul>
+          {!!logs.length && (
+            <ul className="logs">
+              {logs.map((log) => {
+                return (
+                  <li className={`log player-${log.player}`}>
+                    <span className="datetime">{log.datetime}</span>
+                    <p className="text">{log.text}</p>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
         </div>
       </div>
     );
