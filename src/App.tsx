@@ -1,13 +1,5 @@
 import React from 'react';
 
-/**
- * Todos:
- * - Start/Reset Button
- * - Start Button decides if x or o starts
- * - Hover over Field should show current player
- * - Add log just for fun
- */
-
 const generateFields = Array.from({ length: 9 }, (_, i) => {
   const nr = `${i + 1}`;
   return {
@@ -122,7 +114,7 @@ class App extends React.Component {
                   <li className={`log player-${log.player}`}>
                     <span className="datetime">{log.datetime}</span>
                     <p className="text">{log.text}</p>
-                  </li>
+                  </li> 
                 );
               })}
             </ul>

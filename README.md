@@ -1,12 +1,26 @@
 # Tic Tac Toe written in React, TypeScript, & Sass.
+
+## Todos:
+
+- Implement win/lose logic
+- Add restart button
+- Add player name fields
+- Shuffle player start (currently 'x' starts always)
+- Add hover which shows current player name
+
+## Screenshots
+
 ![Game at start](https://raw.githubusercontent.com/bennymeier/tic-tac-toe-react/main/screenshot_1.png)
 ![Game while playing](https://raw.githubusercontent.com/bennymeier/tic-tac-toe-react/main/screenshot_2.png)
 
 ---
+
 ### Getting Started with Create React App
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ### Available Scripts
+
 In the project directory, you can run:
 
 #### `yarn start`
@@ -24,4 +38,3 @@ It correctly bundles React in production mode and optimizes the build for the be
 
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
-
