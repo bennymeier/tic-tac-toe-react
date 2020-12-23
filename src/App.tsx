@@ -8,6 +8,17 @@ const generateFields = Array.from({ length: 9 }, (_, i) => {
     value: '',
   };
 });
+// all possible winning combinations (of cells filled by the same player)
+const winMap = ['123', '456', '789', '147', '258', '369', '159', '357'];
+const findWinningMove = (moves: string[]) =>
+  winMap.find((comb) =>
+    moves.some((m) =>
+      comb
+        .toString()
+        .split('')
+        .every((c) => m.includes(c))
+    )
+  );
 
 type Player = 'x' | 'o';
 interface Field {
@@ -25,6 +36,9 @@ interface State {
   fields: Field[];
   logs: Log[];
   gameBegan: boolean;
+  count: number;
+  gameFinished: boolean;
+  winner: string;
 }
 class App extends React.Component {
   state: State = {
@@ -32,6 +46,9 @@ class App extends React.Component {
     fields: generateFields,
     logs: [],
     gameBegan: false,
+    gameFinished: false,
+    winner: '',
+    count: 1,
   };
 
   changePlayer = (): Promise<Player> => {
@@ -42,6 +59,34 @@ class App extends React.Component {
         this.setState({ player: 'o' }, () => resolve('o'));
       }
     });
+  };
+
+  checkForWin = () => {
+    const { fields } = this.state;
+    const player_one_fields = fields.filter((field) => field.value === 'x');
+    const player_one_selected = player_one_fields
+      .map((field) => field.id)
+      .join('');
+    const player_two_fields = fields.filter((field) => field.value === 'o');
+    const player_two_selected = player_two_fields
+      .map((field) => field.id)
+      .join('');
+    const winner_1 = findWinningMove([player_one_selected]);
+    const winner_2 = findWinningMove([player_two_selected]);
+    if (winner_1 || winner_2) {
+      console.log(`Player ${this.state.player} has won the game!`);
+      this.setState({ gameFinished: true, winner: this.state.player });
+    }
+    // for (let i = 0; i < winMap.length; i++) {
+    //   const one = player_one_selected.includes(winMap[i]);
+    //   const two = player_two_selected.includes(winMap[i]);
+    //   if (one) {
+    //     console.log('PLAYER ONE WON!');
+    //   } else if (two) {
+    //     this.setState({ gameFinished: true, winner: this.state.player });
+    //     console.log('PLAYER TWO WON!');
+    //   }
+    // }
   };
 
   setLogEntry = (text: string) => {
@@ -55,7 +100,7 @@ class App extends React.Component {
   };
 
   fillField = (currentField: Field) => {
-    const { player } = this.state;
+    const { player, count } = this.state;
     if (currentField.selected === 'true') {
       console.warn(`Field Nr. ${currentField.id} already selected!`);
       this.setLogEntry(
@@ -69,7 +114,10 @@ class App extends React.Component {
       }
       return field;
     });
-    this.setState({ fields, gameBegan: true }, async () => {
+    this.setState({ fields, gameBegan: true, count: count + 1 }, async () => {
+      if (count > 4) {
+        this.checkForWin();
+      }
       this.setLogEntry(
         `Player ${player} you have selected field nr. ${currentField.id}.`
       );
@@ -79,18 +127,31 @@ class App extends React.Component {
   };
 
   render() {
-    const { fields, player, logs, gameBegan } = this.state;
+    const {
+      fields,
+      player,
+      logs,
+      gameBegan,
+      gameFinished,
+      winner,
+    } = this.state;
     return (
       <div className="container">
-        <div className="game-started">
+        <section className="game-started">
           {!gameBegan && (
             <p>
               Player <span className={`player ${player}`}>{player}</span> starts
               the game.
             </p>
           )}
-        </div>
-        <div className="board">
+          {gameFinished && (
+            <p>
+              Player <span className={`player ${winner}`}>{winner}</span> won
+              the game!
+            </p>
+          )}
+        </section>
+        <section className={`board ${gameFinished ? 'disabled' : ''}`}>
           {fields.map((field) => {
             return (
               <div
@@ -105,21 +166,21 @@ class App extends React.Component {
               </div>
             );
           })}
-        </div>
-        <div className="logs-container">
+        </section>
+        <section className="logs-container">
           {!!logs.length && (
             <ul className="logs">
-              {logs.map((log) => {
+              {logs.map((log, index) => {
                 return (
-                  <li className={`log player-${log.player}`}>
+                  <li className={`log player-${log.player}`} key={index}>
                     <span className="datetime">{log.datetime}</span>
                     <p className="text">{log.text}</p>
-                  </li> 
+                  </li>
                 );
               })}
             </ul>
           )}
-        </div>
+        </section>
       </div>
     );
   }

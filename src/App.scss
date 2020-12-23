@@ -30,6 +30,9 @@ body {
   .board {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+    &.disabled {
+      pointer-events: none;
+    }
 
     .field {
       height: 50px;
