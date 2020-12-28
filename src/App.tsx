@@ -13,8 +13,10 @@ const generateFields = Array.from({ length: 9 }, (_, i) => {
     value: "",
   };
 });
+
 // all possible winning combinations (of cells filled by the same player)
 const winMap = ["123", "456", "789", "147", "258", "369", "159", "357"];
+
 const findWinningMove = (moves: string[]) =>
   winMap.find((comb) =>
     moves.some((m) =>
@@ -24,6 +26,12 @@ const findWinningMove = (moves: string[]) =>
         .every((c) => m.includes(c))
     )
   );
+
+const randomPlayer = () => {
+  const players: Player[] = ["x", "o"];
+  const randomNumber = Math.round(Math.random() * 1);
+  return players[randomNumber];
+};
 
 export type Player = "x" | "o";
 interface Log {
@@ -42,7 +50,7 @@ interface State {
 }
 
 const INITIAL_STATE: State = {
-  player: "x",
+  player: randomPlayer(),
   fields: generateFields,
   logs: [],
   gameBegan: false,
@@ -50,6 +58,7 @@ const INITIAL_STATE: State = {
   winner: "",
   count: 1,
 };
+
 class App extends React.Component {
   state: State = INITIAL_STATE;
 
@@ -124,7 +133,8 @@ class App extends React.Component {
   };
 
   restartGame = () => {
-    this.setState({ ...INITIAL_STATE });
+    const state = { ...INITIAL_STATE, player: randomPlayer() };
+    this.setState({ ...state });
   };
 
   render() {
