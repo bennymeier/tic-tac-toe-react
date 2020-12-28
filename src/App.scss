@@ -50,16 +50,16 @@ body {
         background: gray;
       }
 
-      &[data-selected='true'] {
+      &[data-selected="true"] {
         background: lightgray;
         cursor: not-allowed;
       }
 
-      &[data-value='x'] {
+      &[data-value="x"] {
         color: tomato;
       }
 
-      &[data-value='o'] {
+      &[data-value="o"] {
         color: cornflowerblue;
       }
     }

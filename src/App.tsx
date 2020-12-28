@@ -1,4 +1,8 @@
 import React from "react";
+import { Field } from "./components/Field";
+import FieldContainer from "./components/FieldContainer";
+import HeaderContainer from "./components/HeaderContainer";
+import LogContainer from "./components/LogContainer";
 
 const generateFields = Array.from({ length: 9 }, (_, i) => {
   const nr = `${i + 1}`;
@@ -20,12 +24,7 @@ const findWinningMove = (moves: string[]) =>
     )
   );
 
-type Player = "x" | "o";
-interface Field {
-  id: string;
-  selected: string;
-  value: string;
-}
+export type Player = "x" | "o";
 interface Log {
   datetime: string;
   text: string;
@@ -40,6 +39,7 @@ interface State {
   gameFinished: boolean;
   winner: string;
 }
+
 class App extends React.Component {
   state: State = {
     player: "x",
@@ -132,50 +132,18 @@ class App extends React.Component {
     } = this.state;
     return (
       <div className="container">
-        <section className="game-started">
-          {!gameBegan && (
-            <p>
-              Player <span className={`player ${player}`}>{player}</span> starts
-              the game.
-            </p>
-          )}
-          {gameFinished && (
-            <p>
-              Player <span className={`player ${winner}`}>{winner}</span> won
-              the game!
-            </p>
-          )}
-        </section>
-        <section className={`board ${gameFinished ? "disabled" : ""}`}>
-          {fields.map((field) => {
-            return (
-              <div
-                className="field"
-                data-field={field.id}
-                data-selected={field.selected}
-                data-value={field.value}
-                key={field.id}
-                onClick={() => this.fillField(field)}
-              >
-                {field.value}
-              </div>
-            );
-          })}
-        </section>
-        <section className="logs-container">
-          {!!logs.length && (
-            <ul className="logs">
-              {logs.map((log, index) => {
-                return (
-                  <li className={`log player-${log.player}`} key={index}>
-                    <span className="datetime">{log.datetime}</span>
-                    <p className="text">{log.text}</p>
-                  </li>
-                );
-              })}
-            </ul>
-          )}
-        </section>
+        <HeaderContainer
+          gameBegan={gameBegan}
+          gameFinished={gameFinished}
+          player={player}
+          winner={winner}
+        />
+        <FieldContainer
+          onClick={this.fillField}
+          gameFinished={gameFinished}
+          fields={fields}
+        />
+        <LogContainer logs={logs} />
       </div>
     );
   }
