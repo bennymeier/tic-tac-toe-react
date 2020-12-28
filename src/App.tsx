@@ -74,19 +74,10 @@ class App extends React.Component {
     const winner_1 = findWinningMove([player_one_selected]);
     const winner_2 = findWinningMove([player_two_selected]);
     if (winner_1 || winner_2) {
-      console.log(`Player ${this.state.player} has won the game!`);
-      this.setState({ gameFinished: true, winner: this.state.player });
+      this.setState({ gameFinished: true, winner: this.state.player }, () => {
+        this.setLogEntry(`Player ${this.state.player} has won the game!`);
+      });
     }
-    // for (let i = 0; i < winMap.length; i++) {
-    //   const one = player_one_selected.includes(winMap[i]);
-    //   const two = player_two_selected.includes(winMap[i]);
-    //   if (one) {
-    //     console.log('PLAYER ONE WON!');
-    //   } else if (two) {
-    //     this.setState({ gameFinished: true, winner: this.state.player });
-    //     console.log('PLAYER TWO WON!');
-    //   }
-    // }
   };
 
   setLogEntry = (text: string) => {
@@ -100,7 +91,10 @@ class App extends React.Component {
   };
 
   fillField = (currentField: Field) => {
-    const { player, count } = this.state;
+    const { player, count, gameFinished } = this.state;
+    if (gameFinished) {
+      return;
+    }
     if (currentField.selected === 'true') {
       console.warn(`Field Nr. ${currentField.id} already selected!`);
       this.setLogEntry(
@@ -118,6 +112,7 @@ class App extends React.Component {
       if (count > 4) {
         this.checkForWin();
       }
+
       this.setLogEntry(
         `Player ${player} you have selected field nr. ${currentField.id}.`
       );
