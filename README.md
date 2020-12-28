@@ -2,7 +2,6 @@
 
 ## Todos:
 
-- Implement win/lose logic
 - Add restart button
 - Add player name fields
 - Shuffle player start (currently 'x' starts always)
