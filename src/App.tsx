@@ -1,26 +1,26 @@
-import React from 'react';
+import React from "react";
 
 const generateFields = Array.from({ length: 9 }, (_, i) => {
   const nr = `${i + 1}`;
   return {
     id: nr,
-    selected: 'false',
-    value: '',
+    selected: "false",
+    value: "",
   };
 });
 // all possible winning combinations (of cells filled by the same player)
-const winMap = ['123', '456', '789', '147', '258', '369', '159', '357'];
+const winMap = ["123", "456", "789", "147", "258", "369", "159", "357"];
 const findWinningMove = (moves: string[]) =>
   winMap.find((comb) =>
     moves.some((m) =>
       comb
         .toString()
-        .split('')
+        .split("")
         .every((c) => m.includes(c))
     )
   );
 
-type Player = 'x' | 'o';
+type Player = "x" | "o";
 interface Field {
   id: string;
   selected: string;
@@ -42,40 +42,40 @@ interface State {
 }
 class App extends React.Component {
   state: State = {
-    player: 'x',
+    player: "x",
     fields: generateFields,
     logs: [],
     gameBegan: false,
     gameFinished: false,
-    winner: '',
+    winner: "",
     count: 1,
   };
 
   changePlayer = (): Promise<Player> => {
     return new Promise((resolve) => {
-      if (this.state.player === 'o') {
-        this.setState({ player: 'x' }, () => resolve('x'));
+      if (this.state.player === "o") {
+        this.setState({ player: "x" }, () => resolve("x"));
       } else {
-        this.setState({ player: 'o' }, () => resolve('o'));
+        this.setState({ player: "o" }, () => resolve("o"));
       }
     });
   };
 
   checkForWin = () => {
     const { fields } = this.state;
-    const player_one_fields = fields.filter((field) => field.value === 'x');
+    const player_one_fields = fields.filter((field) => field.value === "x");
     const player_one_selected = player_one_fields
       .map((field) => field.id)
-      .join('');
-    const player_two_fields = fields.filter((field) => field.value === 'o');
+      .join("");
+    const player_two_fields = fields.filter((field) => field.value === "o");
     const player_two_selected = player_two_fields
       .map((field) => field.id)
-      .join('');
+      .join("");
     const winner_1 = findWinningMove([player_one_selected]);
     const winner_2 = findWinningMove([player_two_selected]);
     if (winner_1 || winner_2) {
       this.setState({ gameFinished: true, winner: this.state.player }, () => {
-        this.setLogEntry(`Player ${this.state.player} has won the game!`);
+        this.setLogEntry(`Player ${this.state.winner} has won the game!`);
       });
     }
   };
@@ -95,7 +95,7 @@ class App extends React.Component {
     if (gameFinished) {
       return;
     }
-    if (currentField.selected === 'true') {
+    if (currentField.selected === "true") {
       console.warn(`Field Nr. ${currentField.id} already selected!`);
       this.setLogEntry(
         `Player ${player} the field ${currentField.id} is already selected.`
@@ -104,7 +104,7 @@ class App extends React.Component {
     }
     const fields = this.state.fields.map((field) => {
       if (field.id === currentField.id) {
-        return { ...field, selected: 'true', value: this.state.player };
+        return { ...field, selected: "true", value: this.state.player };
       }
       return field;
     });
@@ -146,7 +146,7 @@ class App extends React.Component {
             </p>
           )}
         </section>
-        <section className={`board ${gameFinished ? 'disabled' : ''}`}>
+        <section className={`board ${gameFinished ? "disabled" : ""}`}>
           {fields.map((field) => {
             return (
               <div
