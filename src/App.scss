@@ -1,5 +1,39 @@
+:root {
+  --redColor: #e3403a;
+  --blueColor: cornflowerblue;
+}
 body {
   font-family: Arial, Helvetica, sans-serif;
+}
+.restart {
+  position: fixed;
+  left: 15px;
+  top: 15px;
+}
+
+.button {
+  cursor: pointer;
+  background: var(--redColor);
+  border: 1px solid #da251f;
+  box-shadow: 0px 2px 0 #d6251f, 2px 4px 6px #e02a24;
+  font-weight: 900;
+  letter-spacing: 1px;
+  transition: all 150ms linear;
+  color: #fff;
+  font-size: 16px;
+  line-height: 45px;
+  margin: 0 0 2em;
+  max-width: 160px;
+  text-decoration: none;
+  text-transform: uppercase;
+  width: 100%;
+  outline: none;
+  &:hover {
+    background: #e02c26c7;
+    text-decoration: none;
+    text-shadow: -1px -1px 0 #c2211c;
+    transition: all 250ms linear;
+  }
 }
 
 .container {
@@ -12,10 +46,10 @@ body {
     font-weight: bold;
     font-size: 1.7em;
     &.x {
-      color: tomato;
+      color: var(--redColor);
     }
     &.o {
-      color: cornflowerblue;
+      color: var(--blueColor);
     }
   }
 
@@ -56,11 +90,11 @@ body {
       }
 
       &[data-value="x"] {
-        color: tomato;
+        color: var(--redColor);
       }
 
       &[data-value="o"] {
-        color: cornflowerblue;
+        color: var(--blueColor);
       }
     }
   }
@@ -85,11 +119,11 @@ body {
       margin: 0.2em;
 
       &.player-x {
-        color: tomato;
+        color: var(--redColor);
       }
 
       &.player-o {
-        color: cornflowerblue;
+        color: var(--blueColor);
       }
 
       .datetime {

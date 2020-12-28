@@ -3,6 +3,7 @@ import { Field } from "./components/Field";
 import FieldContainer from "./components/FieldContainer";
 import HeaderContainer from "./components/HeaderContainer";
 import LogContainer from "./components/LogContainer";
+import RestartButton from "./components/RestartButton";
 
 const generateFields = Array.from({ length: 9 }, (_, i) => {
   const nr = `${i + 1}`;
@@ -40,16 +41,17 @@ interface State {
   winner: string;
 }
 
+const INITIAL_STATE: State = {
+  player: "x",
+  fields: generateFields,
+  logs: [],
+  gameBegan: false,
+  gameFinished: false,
+  winner: "",
+  count: 1,
+};
 class App extends React.Component {
-  state: State = {
-    player: "x",
-    fields: generateFields,
-    logs: [],
-    gameBegan: false,
-    gameFinished: false,
-    winner: "",
-    count: 1,
-  };
+  state: State = INITIAL_STATE;
 
   changePlayer = (): Promise<Player> => {
     return new Promise((resolve) => {
@@ -121,6 +123,10 @@ class App extends React.Component {
     });
   };
 
+  restartGame = () => {
+    this.setState({ ...INITIAL_STATE });
+  };
+
   render() {
     const {
       fields,
@@ -132,6 +138,7 @@ class App extends React.Component {
     } = this.state;
     return (
       <div className="container">
+        <RestartButton onClick={this.restartGame} />
         <HeaderContainer
           gameBegan={gameBegan}
           gameFinished={gameFinished}
