@@ -2,11 +2,18 @@
   --redColor: #e3403a;
   --blueColor: cornflowerblue;
 }
+
 body {
   font-family: Arial, Helvetica, sans-serif;
 }
+
+@media (min-width: 799px) {
+  .restart {
+    position: fixed;
+  }
+}
+
 .restart {
-  position: fixed;
   left: 15px;
   top: 15px;
 }
